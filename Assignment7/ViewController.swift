@@ -11,6 +11,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 
     let statusBar = UIView()
+    
+    let listView = UIView()
        
     let plusButton = UIButton(type: .system)
     
@@ -40,6 +42,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         statusBar.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         statusBar.setContentHuggingPriority(.required, for: .vertical)
         
+        
+        view.addSubview(listView)
+        listView.frame = .init(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height)
+        
         configButtons()
         
         let imageList = fetchImages()
@@ -60,13 +66,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         menuProduct.isHidden = true
         
         tableProduct.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableProduct.estimatedRowHeight = 44.0
+//        tableProduct.estimatedRowHeight = 44.0
         tableProduct.delegate = self
         tableProduct.dataSource = self
         
-        view.addSubview(tableProduct)
-        
-        tableProduct.anchors(topAnchor: statusBar.bottomAnchor, leadingAnchor: view.leadingAnchor, trailingAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor)
+        listView.addSubview(tableProduct)
+        tableProduct.matchParent()
+//        tableProduct.anchors(topAnchor: statusBar.bottomAnchor, leadingAnchor: view.leadingAnchor, trailingAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor)
     }
     
     fileprivate func configButtons() {
@@ -93,25 +99,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         switch sender.currentImage!  {
         
         case UIImage(named:"oreos"):
-            print("Oreos")
             listProduct.append("Oreos")
         case UIImage(named:"pizza_pockets"):
-            print("Pizza Pockets")
             listProduct.append("Pizza Pockets")
         case UIImage(named:"pop_tarts"):
-            print("Pop Tarts")
             listProduct.append("Pop Tarts")
         case UIImage(named:"popsicle"):
-            print("Popsicle")
             listProduct.append("Popsicle")
         case UIImage(named:"ramen"):
-            print("Ramen")
             listProduct.append("Ramen")
         default:
             print("Invalid Option")
         }
-        print(listProduct
-        )
         
         tableProduct.reloadData()
         
@@ -170,6 +169,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func plusMethod() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 1) {
             self.statusBar.frame = CGRect(x: 0, y: 44, width: self.view.bounds.width, height: 200)
+            self.listView.frame = CGRect(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height)
             self.titleBar.frame = CGRect(x: self.statusBar.bounds.width/2 - 75, y: 40, width: 150, height: 44)
             self.tableProduct.setNeedsUpdateConstraints()
             self.titleBar.text = "Add a Snack"
@@ -186,6 +186,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func exitMethod() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 1, options: .curveEaseIn) {
             self.statusBar.frame = CGRect(x: 0, y: 44, width: self.view.bounds.width, height: 44)
+            self.listView.frame = CGRect(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height)
             self.titleBar.frame = CGRect(x: self.statusBar.bounds.width/2 - 50, y: 0, width: 100, height: 44)
             self.tableProduct.setNeedsUpdateConstraints()
             self.titleBar.text = "Snacks"
