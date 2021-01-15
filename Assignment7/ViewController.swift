@@ -82,7 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         plusButton.titleLabel?.font = UIFont.systemFont(ofSize: 44)
         plusButton.setTitle("＋", for: .normal)
         plusButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        plusButton.addTarget(self, action: #selector(plusMethod), for: .touchUpInside)
+        plusButton.addTarget(self, action: #selector(plusAnimation), for: .touchUpInside)
         
         statusBar.addSubview(exitButton)
         exitButton.constraintWidth(equalToConstant: 44, heightEqualToConstant: 44)
@@ -91,7 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         exitButton.setTitle("＋", for: .normal)
         exitButton.transform = rotateTransform45
         exitButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        exitButton.addTarget(self, action: #selector(exitMethod), for: .touchUpInside)
+        exitButton.addTarget(self, action: #selector(exitAnimation), for: .touchUpInside)
         exitButton.isHidden = true
     }
     @objc func add(_ sender:UIButton) {
@@ -166,10 +166,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    @objc func plusMethod() {
+    @objc func plusAnimation() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 1) {
             self.statusBar.frame = CGRect(x: 0, y: 44, width: self.view.bounds.width, height: 200)
-            self.listView.frame = CGRect(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height)
+            self.listView.frame = CGRect(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height - (self.statusBar.bounds.height + 44))
             self.titleBar.frame = CGRect(x: self.statusBar.bounds.width/2 - 75, y: 40, width: 150, height: 44)
             self.tableProduct.setNeedsUpdateConstraints()
             self.titleBar.text = "Add a Snack"
@@ -183,10 +183,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    @objc func exitMethod() {
+    @objc func exitAnimation() {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 1, options: .curveEaseIn) {
             self.statusBar.frame = CGRect(x: 0, y: 44, width: self.view.bounds.width, height: 44)
-            self.listView.frame = CGRect(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height)
+            self.listView.frame = CGRect(x: 0, y: self.statusBar.bounds.height + 44, width: self.view.bounds.width, height: self.view.bounds.height - (self.statusBar.bounds.height + 44))
             self.titleBar.frame = CGRect(x: self.statusBar.bounds.width/2 - 50, y: 0, width: 100, height: 44)
             self.tableProduct.setNeedsUpdateConstraints()
             self.titleBar.text = "Snacks"
